@@ -10,15 +10,15 @@
    - c. [Running Jobs in Parallel](#c-running-jobs-in-parallel)
 5. [Project Structure](#5-project-structure)
    - [Overview](#overview)
-7. [Settings](#6-settings)
+6. [Settings](#6-settings)
    - [Docker](#docker)
    - [Running](#running)
-8. [Visualization](#7-visualization)
+7. [Visualization](#7-visualization)
 
 ## 1. Introduction 
 An E-commerce website handles massive amount of requests generated every day, the company is interested in identifying which click lead to a checkout, allowing them to assess marketing effectiveness. Furthermore, the company also demands for near real-time insights into business performance as well.
 
-We will use First Click Attribution within the last 10 minutes.
+<b> <i> We will use First Click Attribution within the last 10 minutes (consider the earliest click) </i> </b>
 
 ### Technology uses :
 - Java (with Maven)
@@ -54,6 +54,16 @@ The diagram illustrate a more detail streaming pipeline.
 - ```Checkouts``` : We perform checkout attribution between topic "Purchases" and topic "Final_clicks", result will be sent to a postgres sink and topic "checkouts".
 
 - ```Stream_cal_final_result``` : read data from topic "checkouts", perform near-real time aggregation within the last hour, and forward results to a postgres sink, from here Grafana will visualize them.
+
+<br>
+
+<b> For each successful attribution, we want to find out which source does the user clicked on, for example did he/she click on our website/product via <i> Tiktok Ad, Google Ad, Facebook posts, etc </i>. We'll evaluate the most effective advertising platform in the last hour </b>
+
+<b> We also evaluate the real time revenue & profit status, most popular categories, most popular fail payment reasons, customer gender distribution (all within the last hour). </b>
+
+(See detail in [Visualization](#7-visualization) below) 
+
+<br>
 
 ## 4. Core concepts
 ### a. State and watermarking
