@@ -32,7 +32,7 @@ We will use First Click Attribution within the last 10 minutes.
 The diagram illustrate the conceptual view of the streaming pipeline. Data will be generated and sent to kafka topics, Spark retrieves them, perform operations (enrich, join, filter, re-calculate, aggregation) and forward them to postgres sink, finally Grafana will pull processed aggregate data for near real-time visualization.
 
 <div style="display: flex; flex-direction: column;">
-<img src=/Assets/brief_architecture.png alt = "brief_architecture">
+<img src=/Assets/brief_pipeline alt = "brief_architecture">
 
 <p style="text-align: center;"> Brief architecture </p>
 </div>
@@ -42,7 +42,7 @@ The diagram illustrate the conceptual view of the streaming pipeline. Data will 
 ## 3. Design 
 The diagram illustrate a more detail streaming pipeline.
 <div style="display: flex; flex-direction: column;">
-<img src=/Assets/detail_architecture.png alt = "detail_architecture">
+<img src=/Assets/detail_pipeline alt = "detail_architecture">
 
 <p style="text-align: center;"> Detail stream pipeline </p>
 </div>
