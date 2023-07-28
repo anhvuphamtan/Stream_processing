@@ -1,0 +1,71 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:13
+    container_name: postgres
+    ports:
+      - '5555:5432'
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=password
+
+  spark:
+    image: apache/spark:3.4.1-scala2.12-java11-python3-r-ubuntu
+    container_name: spark 
+    ports: 
+      - '8089:8080'
+      - '7079:7077'
+      - '4049:4040'
+  
+  zookeeper:
+    image: bitnami/zookeeper:3.8
+    container_name: zookeeper 
+    ports:
+      - '2189:2181'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+
+
+  kafka:
+    image: bitnami/kafka:3.4
+    container_name: kafka 
+    depends_on:
+      - zookeeper
+        
+    ports:
+      - '9099:9092'
+    environment:
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_AUTO_CREATE_TOPICS_ENABLE=true
+      - ALLOW_PLAINTEXT_LISTENER=yes
+    
+  kafka-init:
+    image: bitnami/kafka:3.4
+    container_name: kafka-init 
+    depends_on:
+      - zookeeper
+      - kafka 
+    command: "bash -c 'echo Waiting for Kafka to be ready... && \
+                        kafka-topics.sh --bootstrap-server kafka:9092 --create --topic clicks && \
+                        kafka-topics.sh --bootstrap-server kafka:9092 --create --topic purchases && \
+                        kafka-topics.sh --bootstrap-server kafka:9092 --create --topic checkouts && \
+                        kafka-topics.sh --bootstrap-server kafka:9092 --create --topic min_clicks && \
+                        kafka-topics.sh --bootstrap-server kafka:9092 --create --topic final_clicks'"
+                             
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+     - '3000:3000'
+
+  maven_project:
+    build: 
+      context: .
+    depends_on:
+      - postgres
+      - kafka 
+      - spark
+      
+
+
