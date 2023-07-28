@@ -151,8 +151,9 @@ Finally, we use <b> spark.stream().awaitAnyTermination() </b> to start all the q
 │     └── many images
 ├── Checkpoints
 ├── spark-warehouse
-├── .gitignore
+├── .vscode
 ├── readme.md
+└── visualize_grafana.md
 ```
 
 ### Overview
