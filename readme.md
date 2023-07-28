@@ -55,7 +55,7 @@ The diagram illustrate a more detail streaming pipeline.
 
 - ```Stream_cal_final_result``` : read data from topic "checkouts", perform near-real time aggregation within the last hour, and forward results to a postgres sink, from here Grafana will visualize them.
 
-# 4. Core concepts
+## 4. Core concepts
 ### a. State and watermarking
 Due to the nature of late data arrival, watermark has been introduced to overcome the problem - it specify how late data can be accepted.
 
@@ -117,7 +117,7 @@ We use ```.config("spark.streaming.concurrentJobs", "n") ``` to set the number o
 
 Finally, we use <b> spark.stream().awaitAnyTermination() </b> to start all the queries.
 
-### 5. Project Structure
+## 5. Project Structure
 ```bash
 
 ├── Input_data
