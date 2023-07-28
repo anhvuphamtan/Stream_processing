@@ -1,5 +1,31 @@
 # Stream Processing : Real-time Click Attribution and Dynamic E-commerce Insights
 
+## Table of Contents
+1. [Introduction](#1-introduction)
+2. [Architecture](#2-architecture)
+3. [Design](#3-design)
+   - a. [State & Watermarking](#a-state--watermarking)
+   - b. [Data Retention](#b-data-retention)
+   - c. [Running Jobs in Parallel](#c-running-jobs-in-parallel)
+4. [Core Concepts](#4-core-concepts)
+   - a. [State & Watermarking (with illustration)](#a-state--watermarking-with-illustration)
+   - b. [Data Retention (with SQL script)](#b-data-retention-with-sql-script)
+   - c. [Running Jobs in Parallel (Spark configuration)](#c-running-jobs-in-parallel-spark-configuration)
+5. [Project Structure](#5-project-structure)
+   - [Directory structure explanation](#directory-structure-explanation)
+   - [Explanation of each component's role](#explanation-of-each-components-role)
+6. [Settings](#6-settings)
+   - [Docker](#docker)
+   - [Running the application](#running-the-application)
+7. [Visualization](#7-visualization)
+   - [Connecting PostgreSQL to Grafana](#connecting-postgresql-to-grafana)
+   - [Importing and configuring the dashboard](#importing-and-configuring-the-dashboard)
+   - [Visualizing real-time data in Grafana](#visualizing-real-time-data-in-grafana)
+
+
+
+
+
 ## 1. Introduction 
 An E-commerce website handles massive amount of requests generated every day, the company is interested in identifying which click lead to a checkout, allowing them to assess marketing effectiveness. Furthermore, the company also demands for near real-time insights into business performance as well.
 
