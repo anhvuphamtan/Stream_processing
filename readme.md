@@ -4,27 +4,16 @@
 1. [Introduction](#1-introduction)
 2. [Architecture](#2-architecture)
 3. [Design](#3-design)
-   - a. [State & Watermarking](#a-state--watermarking)
+4. [Core Concepts](#4-core-concepts)
+   - a. [State and Watermarking](#a-state-and-watermarking)
    - b. [Data Retention](#b-data-retention)
    - c. [Running Jobs in Parallel](#c-running-jobs-in-parallel)
-4. [Core Concepts](#4-core-concepts)
-   - a. [State & Watermarking (with illustration)](#a-state--watermarking-with-illustration)
-   - b. [Data Retention (with SQL script)](#b-data-retention-with-sql-script)
-   - c. [Running Jobs in Parallel (Spark configuration)](#c-running-jobs-in-parallel-spark-configuration)
 5. [Project Structure](#5-project-structure)
-   - [Directory structure explanation](#directory-structure-explanation)
-   - [Explanation of each component's role](#explanation-of-each-components-role)
-6. [Settings](#6-settings)
+   - [Overview](#overview)
+7. [Settings](#6-settings)
    - [Docker](#docker)
-   - [Running the application](#running-the-application)
-7. [Visualization](#7-visualization)
-   - [Connecting PostgreSQL to Grafana](#connecting-postgresql-to-grafana)
-   - [Importing and configuring the dashboard](#importing-and-configuring-the-dashboard)
-   - [Visualizing real-time data in Grafana](#visualizing-real-time-data-in-grafana)
-
-
-
-
+   - [Running](#running)
+8. [Visualization](#7-visualization)
 
 ## 1. Introduction 
 An E-commerce website handles massive amount of requests generated every day, the company is interested in identifying which click lead to a checkout, allowing them to assess marketing effectiveness. Furthermore, the company also demands for near real-time insights into business performance as well.
@@ -66,8 +55,8 @@ The diagram illustrate a more detail streaming pipeline.
 
 - ```Stream_cal_final_result``` : read data from topic "checkouts", perform near-real time aggregation within the last hour, and forward results to a postgres sink, from here Grafana will visualize them.
 
-# 4. Core concept :
-### a. State & watermarking : 
+# 4. Core concepts
+### a. State and watermarking
 Due to the nature of late data arrival, watermark has been introduced to overcome the problem - it specify how late data can be accepted.
 
 In stream aggregation, we'll use time window to calculate the result for each time interval, spark maintains intermediate results of each time window and wait to aggregate any late data correspond to them, until the current max ```event_time``` has passes the current watermark threshold - this means it won't accept any later data and will discard those states.
@@ -87,7 +76,7 @@ In stream-stream joins, spark will buffer each streaming record to a correspondi
 <p style="text-align: center;"> Stream-stream join architecture in checkouts </p>
 </div>
 
-### b. Data retention : 
+### b. Data retention
 
 Aggregated result that serves visualization in grafana  will be kept for 48 hours, we'll create a cron job which will delete old data automatically every day.
 
@@ -123,12 +112,12 @@ psql -h $DB_HOST -p $DB_PORT -d $DB_NAME -U $DB_USER -c "$SQL_COMMAND"
 <img src=/Assets/delete_old_data_sql.png alt = "stream aggregation" height = 300 width = 400>
 </div>
 
-### c. Running jobs in parallel :
+### c. Running jobs in parallel
 We use ```.config("spark.streaming.concurrentJobs", "n") ``` to set the number of concurrentJobs that Spark will handle inside a SparkSession. In ```Get_min_click``` n is set to 2, performing aggregation and join simulatenously. In ```Stream_cal_final_result``` n is set to 5, writting 5 result tables to postgres sink.
 
 Finally, we use <b> spark.stream().awaitAnyTermination() </b> to start all the queries.
 
-### 5. Project Structure 
+### 5. Project Structure
 ```bash
 
 ├── Input_data
@@ -166,7 +155,7 @@ Finally, we use <b> spark.stream().awaitAnyTermination() </b> to start all the q
 ├── readme.md
 ```
 
-### Overview :
+### Overview
 ```bash 
 kafka
 ├── Click_data.java
@@ -227,7 +216,7 @@ stream_processing
 Perform attribution between "purchases" and "Final_clicks"
 - Enrich purchase data with user & product data retrieve from postgreSQL
 - Re-calculate column "total_cost" to resolve inconsistencies -> Create column "profit"
-- Perform stream-stream join (illustrate above)
+- Perform stream-stream join illustrate [above](#a-state-and-watermarking)
 - Write result to topic Checkouts
 
 <b> Stream_cal_final_result.java : </b> 
@@ -241,7 +230,7 @@ Main.java
 This java file runs the entire application, it first execute ```Init_db.java``` to initialize database, then create 4 threads to handle jobs simultaneously : ```Kafka_Producer.java```, ```Get_min_click.java```, ```Checkouts.java```, ```Stream_cal_final_result.java```
 
 
-## 6. Setting 
+## 6. Settings
 
 ### Docker
 Dockerfile includes two steps : build & run
@@ -272,7 +261,7 @@ Navigate the the root directory of the project, type command ```docker-compose u
 - It might take several minutes (probably 2 - 3 minutes) for result in postgreSQL show up, this is due to ```Append``` output mode of the aggregated dataframe, spark will not write the intermediate results to the final results until it has passes the watermark threshold, for this we have set watermark threshold - time window to 1 minute each.
 
 
-## 7. Visualization : 
+## 7. Visualization
 To visualize result in grafana :
  - Access ```localhost:3000```, username and password are both "admin". Click on 'Datasources' -> "PostgreSQL" -> type the config below -> Click 'Save & test'
  - Copy the uid in red
