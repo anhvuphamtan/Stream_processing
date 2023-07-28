@@ -262,25 +262,7 @@ Navigate the the root directory of the project, type command ```docker-compose u
 
 
 ## 7. Visualization
-To visualize result in grafana :
- - Access ```localhost:3000```, username and password are both "admin". Click on 'Datasources' -> "PostgreSQL" -> type the config below -> Click 'Save & test'
- - Copy the uid in red
-
-
-<div style="display: flex; flex-direction: column;">
-<img src=/Assets/postgres-grafana.png alt = "postgres_grafana">
-
-<p style="text-align: center;"> Change PostgreSQL Connection only </p>
-</div>
-
- - Choose import dashboard  from the search bar, navigate to folder ```src/Grafana``` and choose 'dashboard.json'
- - After this, the dashboard will display no data, this is due to mismatch of datasource uid. Click on the setting icon, Choose <b> Json Model </b>, then replace all uids within all datasources to the copied text before (You can do it quickly with ctrl + F -> replace)
-
-<div style="display: flex; flex-direction: column;">
-<img src=/Assets/Replace_datasource_uid.png alt = "postgres_grafana">
-
-<p style="text-align: center;"> Replace datasource uid </p>
-</div>
+To set up enviroment for grafana, refer to [visualize_grafana](/visualize_grafana.md)
 
 <div style="display: flex; flex-direction: column;">
 <img src=/Assets/grafana_1st.png alt = "postgres_grafana">
