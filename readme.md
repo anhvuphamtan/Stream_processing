@@ -17,7 +17,7 @@ We will use First Click Attribution within the last 10 minutes.
 The diagram illustrate the conceptual view of the streaming pipeline. Data will be generated and sent to kafka topics, Spark retrieves them, perform operations (enrich, join, filter, re-calculate, aggregation) and forward them to postgres sink, finally Grafana will pull processed aggregate data for near real-time visualization.
 
 <div style="display: flex; flex-direction: column;">
-<img src=assets/brief_architecture.png alt = "brief_architecture">
+<img src=/Assets/brief_architecture.png alt = "brief_architecture">
 
 <p style="text-align: center;"> Brief architecture </p>
 </div>
@@ -27,7 +27,7 @@ The diagram illustrate the conceptual view of the streaming pipeline. Data will 
 ## 3. Design 
 The diagram illustrate a more detail streaming pipeline.
 <div style="display: flex; flex-direction: column;">
-<img src=assets/detail_architecture.png alt = "detail_architecture">
+<img src=/Assets/detail_architecture.png alt = "detail_architecture">
 
 <p style="text-align: center;"> Detail stream pipeline </p>
 </div>
@@ -47,7 +47,7 @@ Due to the nature of late data arrival, watermark has been introduced to overcom
 In stream aggregation, we'll use time window to calculate the result for each time interval, spark maintains intermediate results of each time window and wait to aggregate any late data correspond to them, until the current max ```event_time``` has passes the current watermark threshold - this means it won't accept any later data and will discard those states.
 
 <div style="display: flex; flex-direction: column;">
-<img src=assets/stream-aggregation.png alt = "stream aggregation">
+<img src=/Assets/stream-aggregation.png alt = "stream aggregation">
 
 <p style="text-align: center;"> Stream window aggregation example </p>
 </div>
@@ -56,7 +56,7 @@ In stream aggregation, we'll use time window to calculate the result for each ti
 In stream-stream joins, spark will buffer each streaming record to a corresponding state, await for future joins. As data arrives, the joined output will be generated incrementally and written to the query sink. However, spark will maintain the states indefinitely -> states grow unbound since spark doesn't know if any future related events would happen or not. For this we need to specify join conditions, letting spark drops "out of service" states.
 
 <div style="display: flex; flex-direction: column;">
-<img src=assets/stream-stream_join.png alt = "stream-stream join">
+<img src=/Assets/stream-stream_join.png alt = "stream-stream join">
 
 <p style="text-align: center;"> Stream-stream join architecture in checkouts </p>
 </div>
@@ -94,7 +94,7 @@ psql -h $DB_HOST -p $DB_PORT -d $DB_NAME -U $DB_USER -c "$SQL_COMMAND"
 
 <b> delete_old_data.sql </b> 
 <div style="display: flex; flex-direction: column;">
-<img src=assets/delete_old_data_sql.png alt = "stream aggregation" height = 300 width = 400>
+<img src=/Assets/delete_old_data_sql.png alt = "stream aggregation" height = 300 width = 400>
 </div>
 
 ### c. Running jobs in parallel :
@@ -223,7 +223,7 @@ Dockerfile includes two steps : build & run
 <br>
 
 <div style="display: flex; flex-direction: column;">
-<img src=assets/Dockerfile.png alt = "Dockerfile">
+<img src=/Assets/Dockerfile.png alt = "Dockerfile">
 </div>
 
 <br>
@@ -253,7 +253,7 @@ To visualize result in grafana :
 
 
 <div style="display: flex; flex-direction: column;">
-<img src=assets/postgres-grafana.png alt = "postgres_grafana">
+<img src=/Assets/postgres-grafana.png alt = "postgres_grafana">
 
 <p style="text-align: center;"> Change PostgreSQL Connection only </p>
 </div>
@@ -262,19 +262,19 @@ To visualize result in grafana :
  - After this, the dashboard will display no data, this is due to mismatch of datasource uid. Click on the setting icon, Choose <b> Json Model </b>, then replace all uids within all datasources to the copied text before (You can do it quickly with ctrl + F -> replace)
 
 <div style="display: flex; flex-direction: column;">
-<img src=assets/Replace_datasource_uid.png alt = "postgres_grafana">
+<img src=/Assets/Replace_datasource_uid.png alt = "postgres_grafana">
 
 <p style="text-align: center;"> Replace datasource uid </p>
 </div>
 
 <div style="display: flex; flex-direction: column;">
-<img src=assets/grafana_1st.png alt = "postgres_grafana">
+<img src=/Assets/grafana_1st.png alt = "postgres_grafana">
 
 </div>
 
 
 <div style="display: flex; flex-direction: column;">
-<img src=assets/grafana_2nd.png alt = "postgres_grafana">
+<img src=/Assets/grafana_2nd.png alt = "postgres_grafana">
 
 <p style="text-align: center;"> Real-time dashboard  </p>
 </div>
