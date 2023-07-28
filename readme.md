@@ -2,25 +2,27 @@
 
 ## Table of Contents
 1. [Introduction](#1-introduction)
-2. [Architecture](#2-architecture)
-3. [Design](#3-design)
-4. [Core Concepts](#4-core-concepts)
+   - [Technology uses](#technology-uses)
+3. [Architecture](#2-architecture)
+   - [Purpose](#purpose)
+4. [Design](#3-design)
+5. [Core Concepts](#4-core-concepts)
    - a. [State and Watermarking](#a-state-and-watermarking)
    - b. [Data Retention](#b-data-retention)
    - c. [Running Jobs in Parallel](#c-running-jobs-in-parallel)
-5. [Project Structure](#5-project-structure)
+6. [Project Structure](#5-project-structure)
    - [Overview](#overview)
-6. [Settings](#6-settings)
+7. [Settings](#6-settings)
    - [Docker](#docker)
    - [Running](#running)
-7. [Visualization](#7-visualization)
+8. [Visualization](#7-visualization)
 
 ## 1. Introduction 
 An E-commerce website handles massive amount of requests generated every day, the company is interested in identifying which click lead to a checkout, allowing them to assess marketing effectiveness. Furthermore, the company also demands for near real-time insights into business performance as well.
 
 <b> <i> We will use First Click Attribution within the last 10 minutes (consider the earliest click) </i> </b>
 
-### Technology uses :
+### Technology uses
 - Java (with Maven)
 - Kafka 
 - Spark (Structured Streaming)
@@ -37,6 +39,14 @@ The diagram illustrate the conceptual view of the streaming pipeline. Data will 
 <p style="text-align: center;"> <b> <i> Brief architecture </i> </b> </p>
 </div>
 
+### Purpose
+
+- For each successful attribution, we want to find out which source does the user clicked on, for example did he/she click on our website/products via <b>  <i> Tiktok Ads, Google Ads, Facebook posts, etc </i>  </b>. We'll evaluate the most effective advertising platform in the last hour.
+
+- We also evaluate the real time revenue & profit status, most popular categories, most popular fail payment reasons, customer gender distribution (all within the last hour).
+
+(See detail in [Visualization](#7-visualization) below) 
+
 <br>
 
 ## 3. Design 
@@ -50,20 +60,9 @@ The diagram illustrate a more detail streaming pipeline.
 - Data generated and sent to two topics "Clicks" and "Purchases"
 - ```Get_min_click``` : To filter rows with min ```click_time``` for each ```user_id```, we first perform aggregation to retrieve ```user_id``` + ```min_click_time```, send it to topic "Min_clicks". Then we'll join topic "Clicks" and topic "Min_clicks" to get the row with full information. Spark Structured Streaming doesn't support aggregation and stream-stream join at the same time, so we create two different jobs within the SparkSession to handle tasks separately.
 
-
 - ```Checkouts``` : We perform checkout attribution between topic "Purchases" and topic "Final_clicks", result will be sent to a postgres sink and topic "checkouts".
 
 - ```Stream_cal_final_result``` : read data from topic "checkouts", perform near-real time aggregation within the last hour, and forward results to a postgres sink, from here Grafana will visualize them.
-
-<br>
-
-<b> For each successful attribution, we want to find out which source does the user clicked on, for example did he/she click on our website/product via <i> Tiktok Ad, Google Ad, Facebook posts, etc </i>. We'll evaluate the most effective advertising platform in the last hour </b>
-
-<b> We also evaluate the real time revenue & profit status, most popular categories, most popular fail payment reasons, customer gender distribution (all within the last hour). </b>
-
-(See detail in [Visualization](#7-visualization) below) 
-
-<br>
 
 ## 4. Core concepts
 ### a. State and watermarking
