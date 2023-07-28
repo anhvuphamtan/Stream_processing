@@ -34,7 +34,7 @@ The diagram illustrate the conceptual view of the streaming pipeline. Data will 
 <div style="display: flex; flex-direction: column;">
 <img src=/Assets/brief_pipeline.png alt = "brief_architecture">
 
-<p style="text-align: center;"> Brief architecture </p>
+<p style="text-align: center;"> <b> <i> Brief architecture </i> </b> </p>
 </div>
 
 <br>
@@ -44,7 +44,7 @@ The diagram illustrate a more detail streaming pipeline.
 <div style="display: flex; flex-direction: column;">
 <img src=/Assets/detail_pipeline.png alt = "detail_architecture">
 
-<p style="text-align: center;"> Detail stream pipeline </p>
+<p style="text-align: center;"> <b> <i> Detail stream pipeline </i> </b> </p>
 </div>
 
 - Data generated and sent to two topics "Clicks" and "Purchases"
@@ -64,7 +64,7 @@ In stream aggregation, we'll use time window to calculate the result for each ti
 <div style="display: flex; flex-direction: column;">
 <img src=/Assets/stream-aggregation.png alt = "stream aggregation">
 
-<p style="text-align: center;"> Stream window aggregation example </p>
+<p style="text-align: center;"> <b> <i> Stream window aggregation example </i> </b> </p>
 </div>
 
 
@@ -73,7 +73,7 @@ In stream-stream joins, spark will buffer each streaming record to a correspondi
 <div style="display: flex; flex-direction: column;">
 <img src=/Assets/stream-stream_join.png alt = "stream-stream join">
 
-<p style="text-align: center;"> Stream-stream join architecture in checkouts </p>
+<p style="text-align: center;"> <b> <i> Stream-stream join architecture in checkouts </i> </b> </p>
 </div>
 
 ### b. Data retention
@@ -107,15 +107,17 @@ psql -h $DB_HOST -p $DB_PORT -d $DB_NAME -U $DB_USER -c "$SQL_COMMAND"
 ```
 <br>
 
-<b> delete_old_data.sql </b> 
 <div style="display: flex; flex-direction: column;">
 <img src=/Assets/delete_old_data_sql.png alt = "stream aggregation" height = 300 width = 400>
+<p style="text-align: center;"> <b> <i> delete_old_data.sql </i> </b>  </p>
 </div>
 
 ### c. Running jobs in parallel
 We use ```.config("spark.streaming.concurrentJobs", "n") ``` to set the number of concurrentJobs that Spark will handle inside a SparkSession. In ```Get_min_click``` n is set to 2, performing aggregation and join simulatenously. In ```Stream_cal_final_result``` n is set to 5, writting 5 result tables to postgres sink.
 
 Finally, we use <b> spark.stream().awaitAnyTermination() </b> to start all the queries.
+
+<br> 
 
 ## 5. Project Structure
 ```bash
@@ -217,7 +219,7 @@ stream_processing
 Perform attribution between "purchases" and "Final_clicks"
 - Enrich purchase data with user & product data retrieve from postgreSQL
 - Re-calculate column "total_cost" to resolve inconsistencies -> Create column "profit"
-- Perform stream-stream join illustrate [above](#a-state-and-watermarking)
+- Perform stream-stream join as illustrate [above](#a-state-and-watermarking)
 - Write result to topic Checkouts
 
 <b> Stream_cal_final_result.java : </b> 
@@ -240,6 +242,7 @@ Dockerfile includes two steps : build & run
 
 <div style="display: flex; flex-direction: column;">
 <img src=/Assets/Dockerfile.png alt = "Dockerfile">
+<p style="text-align: center;"> <b> <i> Dockerfile </i> </b>  </p>
 </div>
 
 <br>
@@ -274,5 +277,5 @@ To set up enviroment for grafana, refer to [visualize_grafana](/visualize_grafan
 <div style="display: flex; flex-direction: column;">
 <img src=/Assets/grafana_2nd.png alt = "postgres_grafana">
 
-<p style="text-align: center;"> Real-time dashboard  </p>
+<p style="text-align: center;"> <b> <i> Real-time dashboard </i> </b>  </p>
 </div>
