@@ -40,10 +40,10 @@ class Gen_data {
     }
     public void gen_data() {
         List<Tuple2<String, String>> potential_purchase_list = new ArrayList<>();
-        int n = 1000;
+        int n = 50000;
         
         while (n > 0) {
-            // n--; // For testing only
+            n--; 
             int rand_n = Math.abs(this.random.nextInt());        
             if (rand_n % 2 == 0) {
                 String click_message = this.clicks.Create_message();
@@ -68,14 +68,14 @@ class Gen_data {
                 producer.send(record);
             }
 
-            // if (n == 0) { // For testing only
-            //     try {
-            //         Thread.sleep(10000);
-            //     } catch (InterruptedException e) {
-            //         e.printStackTrace();
-            //     }
-            //     n = 1000;
-            // }
+            if (n == 0) { 
+                try {
+                    Thread.sleep(50000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+                n = 50000;
+            }
         }
     }
 }   
