@@ -52,7 +52,7 @@ class Gen_data {
                 potential_purchase_list.add(new Tuple2<String,String>(this.clicks.Get_userID(), 
                                                                 this.clicks.Get_productID()));
 
-                System.out.println(click_message);    
+                //System.out.println(click_message);    
                 producer.send(record);
                 
             }
@@ -63,7 +63,7 @@ class Gen_data {
                 
                 String purchase_message = this.purchases.Create_message(info._1(), info._2()); 
                 
-                System.out.println(purchase_message);    
+                //System.out.println(purchase_message);    
                 record = new ProducerRecord<String, String>("purchases", purchase_message);
                 producer.send(record);
             }
