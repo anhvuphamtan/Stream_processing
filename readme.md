@@ -2,7 +2,7 @@
 
 ## Table of Contents
 1. [Introduction](#1-introduction)
-   - [Technology uses](#technology-uses)
+   - [Technologies used](#technologies-used)
 3. [Architecture](#2-architecture)
    - [Purpose](#purpose)
 4. [Design](#3-design)
@@ -22,7 +22,7 @@ An E-commerce website handles massive amount of requests generated every day, th
 
 <b> <i> We will use First Click Attribution within the last 10 minutes (consider the earliest click) </i> </b>
 
-### Technology uses
+### Technologies used
 - Java (with Maven)
 - Kafka 
 - Spark (Structured Streaming)
