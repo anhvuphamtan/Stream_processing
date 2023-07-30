@@ -24,7 +24,7 @@ class Filter_min_row {
         this.spark = SparkSession.builder()
                                 .appName("Stream_aggregation")
                                 .master("local[2]")
-                                .config("spark.executor.memory", "2g")
+                                .config("spark.executor.memory", "4g")
                                 .config("spark.streaming.concurrentJobs", "2") 
                                 .getOrCreate();
         
