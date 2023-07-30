@@ -84,20 +84,6 @@ class Filter_min_row {
                                         }
                                     );
         
-        // 'timestamp_threshold' indicates whether to drop old records from buffer
-        // according to the join conditions below
-        raw_click_df = raw_click_df.withColumn("timestamp_threshold", 
-                                                functions.current_timestamp().minus(
-                                                    functions.expr("INTERVAL 20 minutes")
-                                                )
-                                            );
-                                    
-        min_click_df = min_click_df.withColumn("timestamp_threshold", 
-                                                functions.current_timestamp().minus(
-                                                    functions.expr("INTERVAL 20 minutes")
-                                                )
-                                            );
-        
         raw_click_df = kdf_obj.Change_columns_type(raw_click_df, DataTypes.TimestampType, 
                                                     new String[] {"click_time"});
                                 
@@ -113,9 +99,7 @@ class Filter_min_row {
                                             .join(min_click_df.alias("B"),
                                                 functions.expr(
                                                     "unix_timestamp(A.click_time) = unix_timestamp(B.min_click_time) AND " +
-                                                    "A.user_id = B.min_user_id AND " +
-                                                    "A.click_time >= A.timestamp_threshold AND " + 
-                                                    "B.min_click_time >= B.timestamp_threshold "
+                                                    "A.user_id = B.min_user_id "
                                                 ),
                                                 "inner"
                                             ).drop("timestamp_threshold", "min_click_time", "min_user_id");
