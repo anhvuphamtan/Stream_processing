@@ -40,7 +40,7 @@ class Gen_data {
     }
     public void gen_data() {
         List<Tuple2<String, String>> potential_purchase_list = new ArrayList<>();
-        int n = 50000;
+        int n = 10000;
         
         while (n > 0) {
             n--; 
@@ -70,11 +70,11 @@ class Gen_data {
 
             if (n == 0) { 
                 try {
-                    Thread.sleep(50000);
+                    Thread.sleep(20000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                n = 50000;
+                n = 10000;
             }
         }
     }
