@@ -26,7 +26,7 @@ class Checkout_processing {
         this.spark = SparkSession.builder()
                     .appName("Stream_processing")
                     .master("local[2]")
-                    .config("spark.executor.memory", "2g")
+                    .config("spark.executor.memory", "4g")
                     .config("spark.streaming.concurrentJobs", "2")   
                     .getOrCreate();
           
