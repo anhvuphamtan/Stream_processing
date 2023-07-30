@@ -29,7 +29,7 @@ class Aggregate_result implements Serializable {
         this.spark = SparkSession.builder()
                         .appName("Stream_aggregation")
                         .master("local[4]")
-                        .config("spark.executor.memory", "4g")
+                        .config("spark.executor.memory", "6g")
                         .config("spark.streaming.concurrentJobs", "5")   
                         .getOrCreate();
 
