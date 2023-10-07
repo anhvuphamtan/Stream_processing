@@ -1,5 +1,13 @@
 # Stream Processing : Real-time Click Attribution and Dynamic E-commerce Insights
 
+## Preview
+<div style="display: flex; flex-direction: column;">
+<img src=/Assets/grafana_1st.png alt = "postgres_grafana">
+
+</div>
+
+<br>
+
 ## Table of Contents
 1. [Introduction](#1-introduction)
    - [Technologies used](#technologies-used)
@@ -273,18 +281,14 @@ Navigate the the root directory of the project, type command ```docker-compose u
 <b> Note </b> 
 - It might take several minutes (probably 2 - 3 minutes) for result in postgreSQL show up, this is due to ```Append``` output mode of the aggregated dataframe, spark will not write the intermediate results to the final results until it has passes the watermark threshold, for this we have set watermark threshold - time window to 1 minute each.
 
-
 ## 7. Visualization
-To set up enviroment for grafana, refer to [visualize_grafana](/visualize_grafana.md)
-
-<div style="display: flex; flex-direction: column;">
-<img src=/Assets/grafana_1st.png alt = "postgres_grafana">
-
-</div>
-
 
 <div style="display: flex; flex-direction: column;">
 <img src=/Assets/grafana_2nd.png alt = "postgres_grafana">
 
 <p style="text-align: center;"> <b> <i> Real-time dashboard </i> </b>  </p>
 </div>
+
+To set up enviroment for grafana, refer to [visualize_grafana](/visualize_grafana.md)
+
+
